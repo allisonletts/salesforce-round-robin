@@ -88,7 +88,7 @@ global without sharing class FlowRoundRobinAssigner {
   private RoundRobinAssigner.Details getAssignmentDetails(FlowInput input) {
     RoundRobinAssigner.Details details = new RoundRobinAssigner.Details();
     if (input.recordsToRoundRobin.isEmpty() == false) {
-      details.assignmentType = input.recordsToRoundRobin[0].getSObjectType().getDescribe().getName() + '.' + input.ownerFieldApiName;
+      details.assignmentType = input.recordsToRoundRobin[0].getSObjectType().getDescribe().getLocalName() + '.' + input.ownerFieldApiName.removeEnd('__');
     } else {
       details.assignmentType = input.ownerFieldApiName;
     }
