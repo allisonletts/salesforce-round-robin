@@ -20,6 +20,8 @@ global without sharing class FlowRoundRobinAssigner {
     global SObject recordToRoundRobin;
     @InvocableVariable(label='Update records - defaults to false')
     global Boolean updateRecords = false;
+    @InvocableVariable(label='Name For Custom Setting Record')
+    global String optionalName;
   }
 
   @InvocableMethod(category='Round Robin' label='Round robin records')
@@ -87,8 +89,10 @@ global without sharing class FlowRoundRobinAssigner {
 
   private RoundRobinAssigner.Details getAssignmentDetails(FlowInput input) {
     RoundRobinAssigner.Details details = new RoundRobinAssigner.Details();
-    if (input.recordsToRoundRobin.isEmpty() == false) {
-      details.assignmentType = input.recordsToRoundRobin[0].getSObjectType().getDescribe().getLocalName() + '.' + input.ownerFieldApiName.removeEnd('__');
+    if (input.optionalName != null) {
+      details.assignmentType = input.optionalName;
+    } else if (input.recordsToRoundRobin.isEmpty() == false) {
+      details.assignmentType = input.recordsToRoundRobin[0].getSObjectType().getDescribe().getName() + '.' + input.ownerFieldApiName;
     } else {
       details.assignmentType = input.ownerFieldApiName;
     }
